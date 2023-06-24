@@ -1,0 +1,18 @@
+%%capture
+
+!apt-get update     
+!apt-get install -y openjdk-8-jdk-headless -qq 
+!apt-get install maven -qq
+
+!curl -L "https://archive.apache.org/dist/spark/spark-2.4.5/spark-2.4.5-bin-hadoop2.7.tgz" > spark-2.4.5-bin-hadoop2.7.tgz
+!tar -xvf spark-2.4.5-bin-hadoop2.7.tgz
+!pip install -q findspark
+!pip install pyspark py4j
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import when
+from pyspark.sql import functions
+from pyspark.sql.types import IntegerType
+from pyspark.sql.functions import col
+#from pyspark.sql.Column import isNull
+from pyspark.sql.functions import lit
+spark = SparkSession.builder.master("local[*]").config("spark.driver.memory", "16g").getOrCreate()
