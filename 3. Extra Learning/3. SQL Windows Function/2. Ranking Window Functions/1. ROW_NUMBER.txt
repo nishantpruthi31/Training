@@ -1,0 +1,68 @@
+-- Use Chinook
+--select * from dbo.Track;
+
+/* select max(Milliseconds),name from Track
+group by name */
+select * from Track order by Milliseconds
+
+/* windows start between first row to cureetn row and rank starts from rank 1 */
+select *,
+		ROW_NUMBER() over (Order by Milliseconds asc) LongestSongRank 
+from dbo.Track order by Milliseconds;   
+
+/* Pagination implementation */
+with TrackPage as
+(
+	select 
+		TrackID, [Name], AlbumId, MediaTypeId, GenreId, Composer, Milliseconds, Bytes, UnitPrice,
+		ROW_NUMBER() over (Order by TrackID asc) as RowNumber
+	from dbo.Track
+)
+select TrackID, [Name], AlbumId, MediaTypeId, GenreId, Composer, Milliseconds, Bytes, UnitPrice 
+from TrackPage where RowNumber > 0 and RowNumber <= 10;
+
+
+/* creating stored procedure for pagination */
+create procedure dbo.procGetTrackPage
+(
+	@start as int,
+	@step as int = 10
+) as
+begin
+	with TrackPage as
+	(
+		select 
+			TrackID, [Name], AlbumId, MediaTypeId, GenreId, Composer, Milliseconds, Bytes, UnitPrice,
+			ROW_NUMBER() over (Order by TrackID) as RowNumber
+		from dbo.Track
+	)
+	select TrackID, [Name], AlbumId, MediaTypeId, GenreId, Composer, Milliseconds, Bytes, UnitPrice 
+	from TrackPage where RowNumber > @start and RowNumber <= @start + @step;
+end
+go
+
+/* calling stored procedure 2nd argument is optional */
+exec dbo.procGetTrackPage 0,20;
+go
+
+/* Partitiononing the window */ /* this order by will be on partition . this is not general order by */
+with base as
+(
+	select 
+		TrackID, [Name], AlbumId, MediaTypeId, GenreId, Composer, Milliseconds, Bytes, UnitPrice,
+		ROW_NUMBER() over (Partition by [Name] Order by TrackId asc) RowNumber
+	from dbo.Track
+)
+select * from base where RowNumber > 1 -- order by TrackId; /* we can apply order by here on track id , to apply on actual result
+
+/* Longest song for each album */
+with base as
+(
+	select 
+		TrackID, [Name], AlbumId, MediaTypeId, GenreId, Composer, Milliseconds, Bytes, UnitPrice,
+		ROW_NUMBER() over (Partition by AlbumID Order by Milliseconds desc) RowNumber
+	from dbo.Track
+)
+select TrackID, [Name], AlbumId, MediaTypeId, GenreId, Composer, Milliseconds, Bytes, UnitPrice 
+from base where RowNumber = 1;
+
