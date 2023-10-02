@@ -1,0 +1,20 @@
+--Use Chinook
+--select * from dbo.Track;
+
+select *
+	,NTILE(2) over (Order by UnitPrice desc) as PriceGroup   -- we will get 2 buckets , i.e. total rows will be divided between two buckets as ntile (2)
+from dbo.Track where GenreId = 12;
+
+-- groups of above tier have high discount 
+with EasyListeningTracks as
+(
+	select *
+		,NTILE(4) over (Order by UnitPrice desc) as PriceGroup
+	from dbo.Track where GenreId = 12
+)
+select 	*, 
+		((60 - (PriceGroup * 10))) as DiscountPercentage
+from EasyListeningTracks;
+
+
+		

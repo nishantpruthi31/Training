@@ -1,0 +1,33 @@
+-- Use Chinook
+--select * from dbo.Track;
+
+select *,
+	   RANK() over (Order by UnitPrice desc) as [Rank], /* assigns same rank to duplicates and skip ranks unlike row number */
+	   DENSE_RANK() over (Order by UnitPrice desc) as [DenseRank],   /* work similarly but does not skip rank i.e if duplicates then it will do 1 1 1 and 2. */
+	   ROW_NUMBER() over (Order by UnitPrice desc) [RowNumber]
+from dbo.Track
+
+/* calculating top 3  of each price */
+with base as
+(
+	select TrackId, [Name], AlbumId, MediaTypeId, GenreId, Composer, Milliseconds, UnitPrice,
+	   RANK() over (Order by UnitPrice desc) as [Rank],  -- when rank skips are acceptable go with this
+	   DENSE_RANK() over (Order by UnitPrice desc) as [DenseRank],  -- when no rank skip is allowed
+	   ROW_NUMBER() over (Order by UnitPrice desc) [RowNumber] -- when ties are not an issue use this
+	from dbo.Track
+)
+select * from base where [DenseRank] <= 3 order by UnitPrice desc; 
+select * from dbo.Track order by UnitPrice desc;  -- normal query to get result 
+
+
+with base as(
+select TrackId, [Name], AlbumId, MediaTypeId, GenreId, Composer, Milliseconds, UnitPrice,
+	DENSE_RANK() over (Order by Milliseconds desc) as TrackDurationRank,
+	DENSE_RANK() over (Partition by AlbumId Order by Milliseconds desc) as TrackDurationPerAlbumRank
+from dbo.Track) select * from base 
+where albumId =1  /* if we un comment this then window fxn will be only on album id */
+Order by AlbumId asc, Milliseconds desc
+
+-- SQL Order of operations 
+-- FROM -> WHERE -> GROUP BY -> HAVING -> SELECT -> ORDER BY -> OFFSET | FETCH 
+                                            -- Window fxn are evaluated in select clause hence if we filter data then window fxn will be perfromed only on that
