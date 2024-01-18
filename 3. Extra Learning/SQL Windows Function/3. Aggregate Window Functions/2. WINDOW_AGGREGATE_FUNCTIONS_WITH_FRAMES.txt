@@ -1,0 +1,72 @@
+/* frames help us to select particular no of rows in a windows when using aggregate fxn , it does mot support ranking fxn */
+
+-- rows between <starting> and <ending> -- pysical operator that looks at position of the rows
+-- range between <starting> and <ending>  -- logical operator that looks at value of a expression
+
+/* expression which can be used with rows and range*/
+-- Unbounded Prcedding - The fram starts at first row in set.
+-- Unbounded Following - Frame ends at last row of set
+-- N PRECEDING - Phsyical no of rows before currrent row , supported with rows.
+-- N Following - Physical no of rows after current tow , supported with rows
+-- CURRENT ROW - The row of current calculation.
+;with base as
+(
+	select year(o.OrderDate) [Year],
+	       sum(o.OrderTotal) Revenue
+	from Sales.[Order] o
+	group by year(o.OrderDate)
+)
+select [Year], 
+	   format(Revenue, 'C2') as Revenue,
+	   format(sum(Revenue) over (Order by [Year]
+			Range between unbounded preceding and current row), 'C2') RunningTotal
+from base
+order by [Year];
+
+
+
+select *, format(sum(OrderTotal) over (Order by OrderDate asc 
+				Rows between unbounded preceding and current row), 'C2') as RunningTotal
+from Sales.[Order]
+order by OrderDate asc;
+
+
+
+;with base as
+(
+	select year(o.OrderDate) [Year],
+	       sum(o.OrderTotal) AnnualRevenue
+	from Sales.[Order] o
+	group by year(o.OrderDate)
+),
+ExpectedSales as
+(
+select [Year], AnnualRevenue,
+	   avg(AnnualRevenue) over (Order by [Year] Rows between current row and 1 preceding) ExpectedRevenue
+from base
+)
+select [Year],
+	   format(AnnualRevenue, 'C2') as AnnualRevenue,
+	   format(ExpectedRevenue, 'C2') as ExpectedRevenue,
+	   format(((AnnualRevenue - ExpectedRevenue)/ExpectedRevenue), 'P2') as [% Variance] 
+from ExpectedSales
+order by [Year];
+
+
+
+;with ProductSales as
+(
+	select distinct p.ProductID, p.[Name], p.BrandID, p.CategoryID, p.ModelYear, p.ListPrice, 
+		sum(oi.LineTotal) over (Partition by oi.ProductID) as ProductRevenue
+	from Production.Product p
+	inner join Sales.[OrderItem] oi
+	on oi.ProductID = p.ProductID
+)
+select ProductID, [Name], BrandID, CategoryID, ModelYear, 
+	   format(ListPrice, 'C2') as ListPrice,
+	   format(ProductRevenue, 'C2') as Revenue,
+	   format((ProductRevenue / sum(ProductRevenue) over (Partition by CategoryID)), 'P') as ComparedToCategory,
+	   format((ProductRevenue / sum(ProductRevenue) over (Partition by BrandID)), 'P') as ComparedToBrand,
+	   format((ProductRevenue / sum(ProductRevenue) over ()), 'P') as ComparedToTotalRevenue
+from ProductSales
+order by ProductRevenue desc

@@ -1,0 +1,88 @@
+use BikeStores;
+
+select CategoryID, count(ProductID) as TotalBikes from Production.Product
+group by CategoryID;
+
+
+select CategoryID, BrandID, ProductID, [Name], ModelYear, ListPrice, count(ProductID) as TotalBikes from Production.Product
+group by CategoryID, BrandID, ProductID, [Name], ModelYear, ListPrice;
+
+/* use of CTE and joins to get results */
+;with TotalProductsPerCategory as
+(
+	select CategoryID, count(ProductID) as TotalBikes from Production.Product
+	group by CategoryID
+)
+select ttpc.CategoryID, p.BrandID, p.ProductID, p.[Name], p.ModelYear, p.ListPrice, ttpc.TotalBikes from Production.Product p
+inner join TotalProductsPerCategory ttpc
+on p.CategoryID = ttpc.CategoryID
+order by CategoryID;
+
+ /* count window aggregate fxn */
+select CategoryID, BrandID, ProductID, [Name], ModelYear, ListPrice, 
+	   count(ProductID) over (Partition by CategoryID) as TotalBikes
+from Production.Product
+order by CategoryID;
+
+
+/* all aggregate fxn can operate on ordered window and unordered window , i.e. no order by is necessary there */
+select CategoryID, BrandID, ProductID, [Name], ModelYear, format(ListPrice, 'C2') as ListPrice, 
+		count(ProductID) over () as TotalBikes,--now windows will be 24 rows only for each.   -- if we define order by here Order by brand id then window will differ for brand
+		format(sum(ListPrice) over (), 'C2') as TotalPrice,
+		format(avg(ListPrice) over (), 'C2') as AverageListPrice,
+		format(max(ListPrice) over (), 'C2') as HighestListPrice,
+		format(min(ListPrice) over (), 'C2') as LowestListPrice
+from Production.Product
+where CategoryID = 5
+Order by BrandID asc;   
+
+
+select c.CustomerID, o.OrderID, o.OrderDate, o.StoreID, o.OrderTotal,
+	   count(o.OrderID) over (Partition by c.CustomerId) TotalOrdersByCustomer,
+	   Format(sum(o.OrderTotal) over (Partition by c.CustomerId), 'C2') RevenuePerCustomer,
+	   Format(sum(o.OrderTotal) over (), 'C2') TotalRevenue,
+	   Format(sum(o.OrderTotal) over (Partition by c.CustomerId) / sum(o.OrderTotal) over (), 'P') as CustomerRevenueRatio
+from Sales.Customer c
+inner join Sales.[Order] o
+on o.CustomerId = c.CustomerId
+order by CustomerRevenueRatio desc;
+
+
+;with base as
+(
+	select distinct year(o.OrderDate) [Year],
+					month(o.orderDate) [Month],
+					sum(o.OrderTotal) over (Partition by year(o.OrderDate), month(o.orderDate)) MonthlySales,
+					sum(o.OrderTotal) over (Partition by year(o.OrderDate)) [AnnualSales]
+	from Sales.[Order] o
+)
+select [Year], [Month], 
+		format([MonthlySales], 'C2') as [MonthlySales],
+		format([AnnualSales], 'C2') as [AnnualSales],
+		format([MonthlySales] / [AnnualSales], 'P') as [% of AnnualSales],
+		dense_rank() over (Partition by [Year] Order by [MonthlySales] desc) AnnualSales
+from base
+order by [Year], [Month]
+
+
+;with base as
+(
+	select distinct year(o.OrderDate) [Year],
+					month(o.orderDate) [Month],
+					sum(o.OrderTotal) over (Partition by year(o.OrderDate), month(o.orderDate)) [MonthlySales],
+					sum(o.OrderTotal) over (Partition by year(o.OrderDate)) YearlySales
+	from Sales.[Order] o
+),
+YearlySales as
+(
+select [Year], [Month],
+		format([MonthlySales], 'C2') as [MonthlySales],
+		format([YearlySales], 'C2') as [YearlySales], 
+		format([MonthlySales] / [YearlySales], 'P') as [% of YearlySales],
+		dense_rank() over (Partition by [Year] Order by [MonthlySales] desc) MonthlyRank
+from base
+)
+select [Year], [Month], [MonthlySales], [% of YearlySales], [YearlySales] from YearlySales where MonthlyRank = 1 -- here we are only selecting best 
+order by [Year],[Month]
+
+

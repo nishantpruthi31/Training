@@ -1,0 +1,6 @@
+Collect
+Count
+CountByVolume
+saveAsTextFile
+getNumOfpartitions
+rdd.first()  -- to get headers
