@@ -1,0 +1,26 @@
+[2024-08-02T05:58:01.186+0000] {taskinstance.py:1165} INFO - Dependencies all met for <TaskInstance: user_processing.extract_user scheduled__2024-08-01T00:00:00+00:00 [queued]>
+[2024-08-02T05:58:01.197+0000] {taskinstance.py:1165} INFO - Dependencies all met for <TaskInstance: user_processing.extract_user scheduled__2024-08-01T00:00:00+00:00 [queued]>
+[2024-08-02T05:58:01.198+0000] {taskinstance.py:1362} INFO - 
+--------------------------------------------------------------------------------
+[2024-08-02T05:58:01.199+0000] {taskinstance.py:1363} INFO - Starting attempt 1 of 1
+[2024-08-02T05:58:01.199+0000] {taskinstance.py:1364} INFO - 
+--------------------------------------------------------------------------------
+[2024-08-02T05:58:01.217+0000] {taskinstance.py:1383} INFO - Executing <Task(SimpleHttpOperator): extract_user> on 2024-08-01 00:00:00+00:00
+[2024-08-02T05:58:01.224+0000] {standard_task_runner.py:55} INFO - Started process 1781 to run task
+[2024-08-02T05:58:01.228+0000] {standard_task_runner.py:82} INFO - Running: ['***', 'tasks', 'run', 'user_processing', 'extract_user', 'scheduled__2024-08-01T00:00:00+00:00', '--job-id', '11', '--raw', '--subdir', 'DAGS_FOLDER/user_processing.py', '--cfg-path', '/tmp/tmpj6_xpt5y']
+[2024-08-02T05:58:01.230+0000] {standard_task_runner.py:83} INFO - Job 11: Subtask extract_user
+[2024-08-02T05:58:01.309+0000] {task_command.py:376} INFO - Running <TaskInstance: user_processing.extract_user scheduled__2024-08-01T00:00:00+00:00 [running]> on host 18f5bdb82dad
+[2024-08-02T05:58:01.396+0000] {taskinstance.py:1592} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=user_processing
+AIRFLOW_CTX_TASK_ID=extract_user
+AIRFLOW_CTX_EXECUTION_DATE=2024-08-01T00:00:00+00:00
+AIRFLOW_CTX_TRY_NUMBER=1
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2024-08-01T00:00:00+00:00
+[2024-08-02T05:58:01.397+0000] {http.py:121} INFO - Calling HTTP method
+[2024-08-02T05:58:01.407+0000] {base.py:71} INFO - Using connection ID 'user_api' for task execution.
+[2024-08-02T05:58:01.409+0000] {http.py:148} INFO - Sending 'GET' to url: http://randomuser.me/api/
+[2024-08-02T05:58:02.546+0000] {http.py:125} INFO - {"results":[{"gender":"female","name":{"title":"Ms","first":"Meral","last":"Tahincioğlu"},"location":{"street":{"number":6327,"name":"Talak Göktepe Cd"},"city":"Tunceli","state":"Kayseri","country":"Turkey","postcode":71759,"coordinates":{"latitude":"69.3901","longitude":"8.0538"},"timezone":{"offset":"-1:00","description":"Azores, Cape Verde Islands"}},"email":"meral.tahincioglu@example.com","login":{"uuid":"ace6a4c7-acfa-48c0-b390-397a5a33ac08","username":"angrydog612","password":"mdogg","salt":"X9PFYdno","md5":"51e655e8048e1ad2f9b85e11eb99bd30","sha1":"e1be6d9332023364aad89bc6fa9d0ef348beb234","sha256":"3007da5afeccae24d4df9524f27a74d554688c662c54d504c8efb40ec2b09c1a"},"dob":{"date":"1969-09-02T04:38:14.095Z","age":54},"registered":{"date":"2015-06-06T20:39:43.627Z","age":9},"phone":"(621)-680-5931","cell":"(919)-720-3504","id":{"name":"","value":null},"picture":{"large":"https://randomuser.me/api/portraits/women/33.jpg","medium":"https://randomuser.me/api/portraits/med/women/33.jpg","thumbnail":"https://randomuser.me/api/portraits/thumb/women/33.jpg"},"nat":"TR"}],"info":{"seed":"6737c3c3b18eea18","results":1,"page":1,"version":"1.4"}}
+[2024-08-02T05:58:02.606+0000] {taskinstance.py:1406} INFO - Marking task as SUCCESS. dag_id=user_processing, task_id=extract_user, execution_date=20240801T000000, start_date=20240802T055801, end_date=20240802T055802
+[2024-08-02T05:58:02.685+0000] {local_task_job.py:164} INFO - Task exited with return code 0
+[2024-08-02T05:58:02.716+0000] {local_task_job.py:273} INFO - 1 downstream tasks scheduled from follow-on schedule check

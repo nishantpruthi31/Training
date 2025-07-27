@@ -1,0 +1,26 @@
+[2024-08-26T11:43:51.006+0000] {taskinstance.py:1165} INFO - Dependencies all met for <TaskInstance: user_processing.extract_user scheduled__2024-08-25T00:00:00+00:00 [queued]>
+[2024-08-26T11:43:51.042+0000] {taskinstance.py:1165} INFO - Dependencies all met for <TaskInstance: user_processing.extract_user scheduled__2024-08-25T00:00:00+00:00 [queued]>
+[2024-08-26T11:43:51.044+0000] {taskinstance.py:1362} INFO - 
+--------------------------------------------------------------------------------
+[2024-08-26T11:43:51.077+0000] {taskinstance.py:1363} INFO - Starting attempt 1 of 1
+[2024-08-26T11:43:51.078+0000] {taskinstance.py:1364} INFO - 
+--------------------------------------------------------------------------------
+[2024-08-26T11:43:51.149+0000] {taskinstance.py:1383} INFO - Executing <Task(SimpleHttpOperator): extract_user> on 2024-08-25 00:00:00+00:00
+[2024-08-26T11:43:51.167+0000] {standard_task_runner.py:55} INFO - Started process 111 to run task
+[2024-08-26T11:43:51.172+0000] {standard_task_runner.py:82} INFO - Running: ['***', 'tasks', 'run', 'user_processing', 'extract_user', 'scheduled__2024-08-25T00:00:00+00:00', '--job-id', '81', '--raw', '--subdir', 'DAGS_FOLDER/user_processing.py', '--cfg-path', '/tmp/tmprd1fzwl_']
+[2024-08-26T11:43:51.176+0000] {standard_task_runner.py:83} INFO - Job 81: Subtask extract_user
+[2024-08-26T11:43:51.372+0000] {task_command.py:376} INFO - Running <TaskInstance: user_processing.extract_user scheduled__2024-08-25T00:00:00+00:00 [running]> on host b67495cd0aeb
+[2024-08-26T11:43:51.520+0000] {taskinstance.py:1592} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=user_processing
+AIRFLOW_CTX_TASK_ID=extract_user
+AIRFLOW_CTX_EXECUTION_DATE=2024-08-25T00:00:00+00:00
+AIRFLOW_CTX_TRY_NUMBER=1
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2024-08-25T00:00:00+00:00
+[2024-08-26T11:43:51.522+0000] {http.py:121} INFO - Calling HTTP method
+[2024-08-26T11:43:51.541+0000] {base.py:71} INFO - Using connection ID 'user_api' for task execution.
+[2024-08-26T11:43:51.545+0000] {http.py:148} INFO - Sending 'GET' to url: http://randomuser.me/api/
+[2024-08-26T11:43:52.699+0000] {http.py:125} INFO - {"results":[{"gender":"female","name":{"title":"Miss","first":"Sophie","last":"Szymanski"},"location":{"street":{"number":8108,"name":"Industriestraße"},"city":"Arendsee (Altmark)","state":"Hamburg","country":"Germany","postcode":66617,"coordinates":{"latitude":"-51.6634","longitude":"101.6107"},"timezone":{"offset":"+2:00","description":"Kaliningrad, South Africa"}},"email":"sophie.szymanski@example.com","login":{"uuid":"ee48c605-a4d3-4f74-84b2-6f3f31b3c53b","username":"blackgorilla965","password":"redbird","salt":"qYm0Esst","md5":"4bca809c584fc175cca27f5fdea9aa0e","sha1":"c348be9f9ce7d2f35cf0e093988e497beb4962d0","sha256":"f9b73f46b14bb3f5d439aa498ef143c939cb4006786c5b3d3e69f88268ee3388"},"dob":{"date":"1955-05-23T06:45:52.066Z","age":69},"registered":{"date":"2021-10-20T11:32:59.126Z","age":2},"phone":"0172-7327452","cell":"0170-9659226","id":{"name":"SVNR","value":"69 230555 S 803"},"picture":{"large":"https://randomuser.me/api/portraits/women/21.jpg","medium":"https://randomuser.me/api/portraits/med/women/21.jpg","thumbnail":"https://randomuser.me/api/portraits/thumb/women/21.jpg"},"nat":"DE"}],"info":{"seed":"2c709fa37555b2fe","results":1,"page":1,"version":"1.4"}}
+[2024-08-26T11:43:52.778+0000] {taskinstance.py:1406} INFO - Marking task as SUCCESS. dag_id=user_processing, task_id=extract_user, execution_date=20240825T000000, start_date=20240826T114351, end_date=20240826T114352
+[2024-08-26T11:43:52.837+0000] {local_task_job.py:164} INFO - Task exited with return code 0
+[2024-08-26T11:43:52.913+0000] {local_task_job.py:273} INFO - 1 downstream tasks scheduled from follow-on schedule check

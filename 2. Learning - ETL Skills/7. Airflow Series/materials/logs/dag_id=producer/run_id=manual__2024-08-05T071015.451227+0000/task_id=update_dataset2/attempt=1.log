@@ -1,0 +1,26 @@
+[2024-08-05T07:10:18.218+0000] {taskinstance.py:1165} INFO - Dependencies all met for <TaskInstance: producer.update_dataset2 manual__2024-08-05T07:10:15.451227+00:00 [queued]>
+[2024-08-05T07:10:18.235+0000] {taskinstance.py:1165} INFO - Dependencies all met for <TaskInstance: producer.update_dataset2 manual__2024-08-05T07:10:15.451227+00:00 [queued]>
+[2024-08-05T07:10:18.236+0000] {taskinstance.py:1362} INFO - 
+--------------------------------------------------------------------------------
+[2024-08-05T07:10:18.238+0000] {taskinstance.py:1363} INFO - Starting attempt 1 of 1
+[2024-08-05T07:10:18.238+0000] {taskinstance.py:1364} INFO - 
+--------------------------------------------------------------------------------
+[2024-08-05T07:10:18.254+0000] {taskinstance.py:1383} INFO - Executing <Task(_PythonDecoratedOperator): update_dataset2> on 2024-08-05 07:10:15.451227+00:00
+[2024-08-05T07:10:18.263+0000] {standard_task_runner.py:55} INFO - Started process 3315 to run task
+[2024-08-05T07:10:18.267+0000] {standard_task_runner.py:82} INFO - Running: ['***', 'tasks', 'run', 'producer', 'update_dataset2', 'manual__2024-08-05T07:10:15.451227+00:00', '--job-id', '48', '--raw', '--subdir', 'DAGS_FOLDER/producer.py', '--cfg-path', '/tmp/tmpov5sdvvr']
+[2024-08-05T07:10:18.269+0000] {standard_task_runner.py:83} INFO - Job 48: Subtask update_dataset2
+[2024-08-05T07:10:18.383+0000] {task_command.py:376} INFO - Running <TaskInstance: producer.update_dataset2 manual__2024-08-05T07:10:15.451227+00:00 [running]> on host 6111c72ad3dd
+[2024-08-05T07:10:18.481+0000] {taskinstance.py:1592} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=producer
+AIRFLOW_CTX_TASK_ID=update_dataset2
+AIRFLOW_CTX_EXECUTION_DATE=2024-08-05T07:10:15.451227+00:00
+AIRFLOW_CTX_TRY_NUMBER=1
+AIRFLOW_CTX_DAG_RUN_ID=manual__2024-08-05T07:10:15.451227+00:00
+[2024-08-05T07:10:18.486+0000] {python.py:177} INFO - Done. Returned value was: None
+[2024-08-05T07:10:18.498+0000] {warnings.py:110} WARNING - /home/***/.local/lib/python3.7/site-packages/***/models/baseoperator.py:1390: RemovedInAirflow3Warning: Passing 'execution_date' to 'TaskInstance.xcom_push()' is deprecated.
+  context['ti'].xcom_push(key=key, value=value, execution_date=execution_date)
+
+[2024-08-05T07:10:18.537+0000] {taskinstance.py:1406} INFO - Marking task as SUCCESS. dag_id=producer, task_id=update_dataset2, execution_date=20240805T071015, start_date=20240805T071018, end_date=20240805T071018
+[2024-08-05T07:10:18.599+0000] {local_task_job.py:164} INFO - Task exited with return code 0
+[2024-08-05T07:10:18.631+0000] {local_task_job.py:273} INFO - 0 downstream tasks scheduled from follow-on schedule check

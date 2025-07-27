@@ -1,0 +1,24 @@
+[2024-08-02T06:21:44.446+0000] {taskinstance.py:1165} INFO - Dependencies all met for <TaskInstance: user_processing.process_user manual__2024-08-02T06:21:37.887038+00:00 [queued]>
+[2024-08-02T06:21:44.462+0000] {taskinstance.py:1165} INFO - Dependencies all met for <TaskInstance: user_processing.process_user manual__2024-08-02T06:21:37.887038+00:00 [queued]>
+[2024-08-02T06:21:44.463+0000] {taskinstance.py:1362} INFO - 
+--------------------------------------------------------------------------------
+[2024-08-02T06:21:44.464+0000] {taskinstance.py:1363} INFO - Starting attempt 1 of 1
+[2024-08-02T06:21:44.465+0000] {taskinstance.py:1364} INFO - 
+--------------------------------------------------------------------------------
+[2024-08-02T06:21:44.485+0000] {taskinstance.py:1383} INFO - Executing <Task(PythonOperator): process_user> on 2024-08-02 06:21:37.887038+00:00
+[2024-08-02T06:21:44.495+0000] {standard_task_runner.py:55} INFO - Started process 2976 to run task
+[2024-08-02T06:21:44.499+0000] {standard_task_runner.py:82} INFO - Running: ['***', 'tasks', 'run', 'user_processing', 'process_user', 'manual__2024-08-02T06:21:37.887038+00:00', '--job-id', '21', '--raw', '--subdir', 'DAGS_FOLDER/user_processing.py', '--cfg-path', '/tmp/tmpidxkgki7']
+[2024-08-02T06:21:44.501+0000] {standard_task_runner.py:83} INFO - Job 21: Subtask process_user
+[2024-08-02T06:21:44.572+0000] {task_command.py:376} INFO - Running <TaskInstance: user_processing.process_user manual__2024-08-02T06:21:37.887038+00:00 [running]> on host 18f5bdb82dad
+[2024-08-02T06:21:44.646+0000] {taskinstance.py:1592} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=***
+AIRFLOW_CTX_DAG_ID=user_processing
+AIRFLOW_CTX_TASK_ID=process_user
+AIRFLOW_CTX_EXECUTION_DATE=2024-08-02T06:21:37.887038+00:00
+AIRFLOW_CTX_TRY_NUMBER=1
+AIRFLOW_CTX_DAG_RUN_ID=manual__2024-08-02T06:21:37.887038+00:00
+[2024-08-02T06:21:44.659+0000] {logging_mixin.py:120} INFO - Data we got is : {'results': [{'gender': 'male', 'name': {'title': 'Mr', 'first': 'Kristian', 'last': 'Diederich'}, 'location': {'street': {'number': 4397, 'name': 'Kirchgasse'}, 'city': 'Obernkirchen', 'state': 'Saarland', 'country': 'Germany', 'postcode': 11316, 'coordinates': {'latitude': '-47.7787', 'longitude': '-101.9917'}, 'timezone': {'offset': '+5:00', 'description': 'Ekaterinburg, Islamabad, Karachi, Tashkent'}}, 'email': 'kristian.diederich@example.com', 'login': {'uuid': '92a78ab0-6e04-4e55-a7da-a9f95d097c25', 'username': 'ticklishostrich699', 'password': 'joyjoy', 'salt': 'A6cp3wti', 'md5': 'cd41f3f23a41bdb564045b2145d5b269', 'sha1': '1c48cd13f1b1bfaf259e3917fcede056232953c3', 'sha256': '16a4a6d63a5f3c2f0276288045a5890090fd08ff6e476bcc1a351b6d397450d6'}, 'dob': {'date': '1977-11-18T05:21:38.323Z', 'age': 46}, 'registered': {'date': '2021-12-07T20:42:50.026Z', 'age': 2}, 'phone': '0380-5471386', 'cell': '0172-8745389', 'id': {'name': 'SVNR', 'value': '66 171177 D 303'}, 'picture': {'large': 'https://randomuser.me/api/portraits/men/60.jpg', 'medium': 'https://randomuser.me/api/portraits/med/men/60.jpg', 'thumbnail': 'https://randomuser.me/api/portraits/thumb/men/60.jpg'}, 'nat': 'DE'}], 'info': {'seed': '56aaea8473c6f179', 'results': 1, 'page': 1, 'version': '1.4'}}
+[2024-08-02T06:21:44.665+0000] {python.py:177} INFO - Done. Returned value was: None
+[2024-08-02T06:21:44.676+0000] {taskinstance.py:1406} INFO - Marking task as SUCCESS. dag_id=user_processing, task_id=process_user, execution_date=20240802T062137, start_date=20240802T062144, end_date=20240802T062144
+[2024-08-02T06:21:44.711+0000] {local_task_job.py:164} INFO - Task exited with return code 0
+[2024-08-02T06:21:44.734+0000] {local_task_job.py:273} INFO - 1 downstream tasks scheduled from follow-on schedule check
